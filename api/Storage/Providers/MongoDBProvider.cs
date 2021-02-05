@@ -9,40 +9,29 @@ using System.Threading.Tasks;
 
 namespace api.Storage.Providers
 {
-    public class MongoDBProvider<T> : IStorageProvider<T> where T: class, new()
+    public class MongoDBProvider<T> : IStorageProvider<T> where T: class
     {
         private readonly IMongoClient _client;
         private readonly IMongoDatabase _database;
-        private readonly IStorageSettings _settings;
-        private string _collection;
+        private readonly IMongoCollection<T> _collection;
         
         public MongoDBProvider(IStorageSettings settings)
         {
-            _client = new MongoClient(_settings.Host);
-            _database = _client.GetDatabase(_settings.Database);
+            _client = new MongoClient(settings.Host);
+            _database = _client.GetDatabase(settings.Database);
+            _collection = _database.GetCollection<T>(typeof(T).Name.ToLowerInvariant());
         }
 
-        protected IMongoCollection<T> Collection
+        public IQueryable<T> AsQueryable() => _collection.AsQueryable();
+
+        public virtual IEnumerable<T> FilterBy(Expression<Func<T, bool>> expression)
         {
-            get
-            {
-                return _database.GetCollection<T>(_collection);
-            }
-            set
-            {
-                Collection = value;
-            }
+            return _collection.Find(expression).ToEnumerable();
         }
 
-        public IMongoQueryable<T> Query 
+        public virtual IEnumerable<TProjected> FilterBy<TProjected>(Expression<Func<T, bool>> expression, Expression<Func<T, TProjected>> projectionExpression)
         {
-            get => Collection.AsQueryable<T>();  
-            set => Query = value; 
-        }
-
-        public T Get(Expression<Func<T, bool>> expression)
-        {
-            return Collection.Find(expression).SingleOrDefault();
+            return _collection.Find(expression).Project(projectionExpression).ToEnumerable();
         }
     }
 }

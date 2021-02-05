@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
@@ -41,6 +42,12 @@ namespace api.Models
 
     public class Artist
     {
+        [BsonId]
+        public ObjectId Id { get; set; }
+
+        [BsonElement("name")]
+        public string Name { get; set; }
+
         [BsonElement("country")]
         public string Country { get; set; }
 

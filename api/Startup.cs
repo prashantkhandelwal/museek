@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,10 @@ namespace api
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<StorageSettings>(
-                Configuration.GetSection(nameof(StorageSettings)));
+                Configuration.GetSection("DBSettings"));
+
+            services.AddSingleton<IStorageSettings>(s => s.GetRequiredService<IOptions<StorageSettings>>().Value);
+            services.AddScoped(typeof(IStorageProvider<>), typeof(MongoDBProvider<>));
 
             services.AddControllers();
         }

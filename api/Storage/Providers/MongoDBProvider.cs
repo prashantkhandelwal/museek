@@ -31,6 +31,9 @@ namespace api.Storage.Providers
 
         public virtual IEnumerable<TProjected> FilterBy<TProjected>(Expression<Func<T, bool>> expression, Expression<Func<T, TProjected>> projectionExpression)
         {
+            //TODO:  Cano also add this collation in order to do the case-insensitive search.
+            // new FindOptions() {  Collation = new Collation("en", strength: CollationStrength.Secondary) }
+
             return _collection.Find(expression).Project(projectionExpression).ToEnumerable();
         }
     }

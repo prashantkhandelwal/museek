@@ -1,4 +1,5 @@
 ﻿using api.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System;
@@ -9,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace api.Storage.Providers
 {
-    public class MongoDBProvider<T> : IStorageProvider<T> where T: class
+    public class MongoDBProvider<T> : IStorageProvider<T> where T : class
     {
         private readonly IMongoClient _client;
         private readonly IMongoDatabase _database;
         private readonly IMongoCollection<T> _collection;
-        
+
         public MongoDBProvider(IStorageSettings settings)
         {
             _client = new MongoClient(settings.Host);
@@ -31,10 +32,23 @@ namespace api.Storage.Providers
 
         public virtual IEnumerable<TProjected> FilterBy<TProjected>(Expression<Func<T, bool>> expression, Expression<Func<T, TProjected>> projectionExpression)
         {
-            //TODO:  Cano also add this collation in order to do the case-insensitive search.
-            // new FindOptions() {  Collation = new Collation("en", strength: CollationStrength.Secondary) }
-
-            return _collection.Find(expression).Project(projectionExpression).ToEnumerable();
+            return _collection
+                .Find(expression, new FindOptions() { Collation = new Collation("en", strength: CollationStrength.Secondary) })
+                .Project(projectionExpression)
+                .ToEnumerable();
         }
+
+        public IEnumerable<TProjected> FilterByText<TProjected>(Expression<Func<T, TProjected>> projectionExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        //public virtual IEnumerable<TProjected> FilterByText<TProjected>(Expression<Func<T, TProjected>> projectionExpression)
+        //{
+        //    return _collection
+        //        .Find(x => filter.Inject(), new FindOptions() { Collation = new Collation("en", strength: CollationStrength.Secondary) })
+        //        .Project(projectionExpression)
+        //        .ToEnumerable();
+        //}
     }
 }

@@ -10,15 +10,16 @@ namespace api.Models
         [BsonElement("ended")]
         public bool IsEnded { get; set; }
 
-        [BsonElement("ended")]
+        [BsonElement("begin")]
         public string BeginYear { get; set; }
 
-        [BsonElement("ended")]
+        [BsonElement("end")]
         public string EndYear { get; set; }
     }
 
     public class Alias
     {
+        [BsonElement("name")]
         public string Name { get; set; }
     }
 
@@ -28,7 +29,7 @@ namespace api.Models
         public int VoteCount { get; set; }
 
         [BsonElement("value")]
-        public double VoteAvg { get; set; }
+        public double? VoteAvg { get; set; }
     }
 
     public class Genre
@@ -43,7 +44,10 @@ namespace api.Models
     public class Artist
     {
         [BsonId]
-        public ObjectId Id { get; set; }
+        public ObjectId DbId { get; set; }
+
+        [BsonElement("id")]
+        public string Id { get; set; }
 
         [BsonElement("name")]
         public string Name { get; set; }

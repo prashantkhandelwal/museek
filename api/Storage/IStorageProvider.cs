@@ -16,5 +16,6 @@ namespace api.Storage
         IQueryable<T> AsQueryable();
         IEnumerable<T> FilterBy(Expression<Func<T, bool>> expression);
         IEnumerable<TProjected> FilterBy<TProjected>(Expression<Func<T, bool>> filterExpression, Expression<Func<T, TProjected>> projectionExpression);
+        IEnumerable<TProjected> FilterByText<TProjected>(Expression<Func<T, TProjected>> projectionExpression);
     }
 }

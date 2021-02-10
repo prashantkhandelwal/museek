@@ -1,16 +1,19 @@
-import { AppBar, Button, Container, IconButton, TextField, Toolbar, Typography } from '@material-ui/core';
 import { useState } from 'react';
+import { AppBar, Button, Container, IconButton, TextField, Toolbar, Typography } from '@material-ui/core';
+import Artist from './Components/Artist';
+import './Museek.css';
 
 function App() {
 
   const [artistName, setArtistName] = useState('');
+  const [artist, setArtist] = useState({});
 
   const search = async () => {
     const res = await fetch("https://localhost:44387/brainz?name=" + artistName);
-    const data = res.json().then(function(d){
-      console.log(d.results[0].name);
+    const data = res.json().then(function (d) {
+      setArtist({ 'data': d.results });
     })
-    
+
     return data;
   }
 
@@ -25,14 +28,17 @@ function App() {
     </Typography>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="sm" style={{ paddingTop: "40px" }}>
+      <Container maxWidth="lg" style={{ paddingTop: "40px" }}>
         <div className="App">
           <header className="App-header">
-            <TextField id="standard-basic" label="Artist Name" value={artistName}
-              onChange={(e) => setArtistName(e.target.value)} />
-            <Button style={{ marginTop: "13px", marginLeft: "8px" }} variant="contained" color='primary' onClick={search}>Search</Button>
+            <div className="searchControls">
+              <TextField id="standard-basic" label="Artist Name" value={artistName}
+                onChange={(e) => setArtistName(e.target.value)} />
+              <Button style={{ marginTop: "13px", marginLeft: "8px" }} variant="contained" color='primary' onClick={search}>Search</Button>
+            </div>
           </header>
         </div>
+        <Artist artist={artist} />
       </Container>
     </>
   );

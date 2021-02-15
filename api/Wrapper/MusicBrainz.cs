@@ -23,8 +23,26 @@ namespace api.Wrapper
         [JsonProperty("aliases")]
         public List<Alias> KnownAlias { get; set; }
 
+        [JsonProperty("relations")]
+        public List<Relations> Relations { get; set; }
+
         [JsonProperty("gender")]
         public string Gender { get; set; }
+    }
+
+    public class Relations
+    {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("url")]
+        public Url Url { get; set; }
+    }
+
+    public class Url
+    {
+        [JsonProperty("resource")]
+        public string ImageURL { get; set; }
     }
 
     public class LifeSpan

@@ -49,13 +49,12 @@ namespace api.Wrapper
 
             string artist_mbid = lastfm_artist.Artist.MBID;
 
-            //response = await client.GetAsync(MUSICBRAINZAPI + $"artist/?query=arid:{artist_mbid}&fmt=json").ConfigureAwait(false);
-            response = await client.GetAsync(MUSICBRAINZAPI + $"artist/{artist_mbid}?fmt=json&inc=ratings+genres").ConfigureAwait(false);
+            response = await client.GetAsync(MUSICBRAINZAPI + $"artist/{artist_mbid}?fmt=json&inc=ratings+genres+url-rels").ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             resp = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var mb_artist = JsonConvert.DeserializeObject<MusicBrainz>(resp);
 
-            //TODO: Get the artist image
+            string artistImage = await GetArtistImage(new Uri(mb_artist.Relations.Where(x => x.Type == "image").Select(s => s.Url.ImageURL).FirstOrDefault()));
 
             dynamic obj = new ExpandoObject();
             obj.name = lastfm_artist.Artist.Name;
@@ -65,6 +64,7 @@ namespace api.Wrapper
             obj.life = mb_artist.LifeSpan;
             obj.rating = mb_artist.Rating;
             obj.bio = lastfm_artist.Artist.Biography.Info;
+            obj.image = artistImage;
 
             return obj;
         }

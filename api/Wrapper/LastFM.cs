@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace api.Wrapper
 {
@@ -30,22 +25,5 @@ namespace api.Wrapper
 
         [JsonProperty("bio")]
         public Bio Biography { get; set; }
-
-        
     }
-
-    
-
-    //public class Artist
-    //{
-    //    public string Country { get; set; }
-
-    //    public Rating Rating { get; set; }
-
-    //    public LifeSpan LifeSpan { get; set; }
-
-    //    public List<Genre> Genres { get; set; }
-
-    //    public List<Alias> KnownAlias { get; set; }
-    //}
 }

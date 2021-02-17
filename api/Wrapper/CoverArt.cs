@@ -12,7 +12,7 @@ namespace api.Wrapper
         public string CoverArt { get; set; }
 
         [JsonProperty("thumbnails")]
-        public List<Thumbnails> Thumbnails { get; set; }
+        public Thumbnails Thumbnails { get; set; }
     }
 
     public class Thumbnails

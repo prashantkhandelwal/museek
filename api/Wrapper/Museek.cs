@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace api.Wrapper
 {
-    public class Museek: IDisposable
+    public class Museek : IDisposable
     {
         private readonly string LASTFMAPIKEY = string.Empty;
         private string LASTFMAPI = "http://ws.audioscrobbler.com/2.0/?format=json&api_key=";
@@ -38,7 +38,7 @@ namespace api.Wrapper
                 throw new ArgumentNullException("APIKey cannot be null or empty.");
             }
         }
-        
+
         public async Task<Object> GetArtist(string name)
         {
             HttpResponseMessage response = await client.GetAsync(LASTFMAPI + $"{LASTFMAPIKEY}&method=artist.getinfo&artist={name}").ConfigureAwait(false);
@@ -69,6 +69,49 @@ namespace api.Wrapper
             return obj;
         }
 
+        public async Task<Object> GetSong(string artistName, string songName)
+        {
+            HttpResponseMessage response = await client.GetAsync(LASTFMAPI + $"{LASTFMAPIKEY}&method=track.getinfo&artist={artistName}&track={songName}").ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            var resp = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            var song = JsonConvert.DeserializeObject<Song>(resp);
+
+            //string artist_mbid = track.Artist.MBID;
+            //string song_mbid = track.MBID;
+            string album_mbid = song.Track.Album.MBID;
+
+            // Gets artist information from MusicBrainz.
+            var mb_artist = await GetArtist(artistName).ConfigureAwait(false);
+            
+            // Get track information from MusicBrainz.
+            response = await client.GetAsync(MUSICBRAINZAPI + $"release-group/?query=reid:{album_mbid}").ConfigureAwait(false);
+            resp = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var mb_song = JsonConvert.DeserializeObject<Recording>(resp);
+
+            //Get Cover Art
+
+            CoverArt coverart = await CoverArt(album_mbid).ConfigureAwait(false);
+            song.Track.Album.CoverArt = coverart;
+
+            dynamic obj = new ExpandoObject();
+            obj.artist = mb_artist;
+            obj.track = song.Track;
+            obj.title = mb_song.Title;
+            obj.releasedate = mb_song.ReleaseDate;
+
+            return obj;
+        }
+
+        private async Task<CoverArt> CoverArt(string id)
+        {
+            HttpResponseMessage response = await client.GetAsync(COVERTARTAPI + $"release/{id}").ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            var resp = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            CoverArt coverart = JsonConvert.DeserializeObject<CoverArt>(resp);
+            return coverart;
+        }
+
         /// <summary>
         /// Gets the artist image from wikipedia.
         /// </summary>
@@ -81,7 +124,7 @@ namespace api.Wrapper
             {
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(await new WebClient().DownloadStringTaskAsync(url).ConfigureAwait(false));
-                
+
                 var root = doc.DocumentNode.SelectNodes("//meta");
 
                 foreach (var meta_tag in root)
@@ -102,15 +145,6 @@ namespace api.Wrapper
             {
                 throw ex;
             }
-        }
-
-        private async Task<CoverArt> CoverArt(string id)
-        {
-            HttpResponseMessage response = await client.GetAsync(COVERTARTAPI + $"release/{ id}").ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
-            var resp = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            CoverArt coverart = JsonConvert.DeserializeObject<CoverArt>(resp);
-            return coverart;
         }
 
         public void Dispose()

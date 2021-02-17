@@ -36,6 +36,8 @@ namespace api.Wrapper
 
         [JsonProperty("mbid")]
         public string MBID { get; set; }
+
+        public CoverArt CoverArt { get; set; }
     }
     public class Wiki
     {
@@ -45,5 +47,17 @@ namespace api.Wrapper
         [JsonProperty("summary")]
         public string Summary { get; set; }
 
+    }
+
+    /// <summary>
+    /// Class for MusicBrainz Recording API
+    /// </summary>
+    public class Recording
+    {
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("first-release-date")]
+        public string ReleaseDate { get; set; }
     }
 }

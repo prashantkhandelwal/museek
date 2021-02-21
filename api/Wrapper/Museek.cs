@@ -103,6 +103,26 @@ namespace api.Wrapper
             return obj;
         }
 
+        public async Task<Object> Auto(string search)
+        {
+            HttpResponseMessage response = await client.GetAsync("https://musicbrainz.org/ws/js/artist?q=eminem&limit=3&page=1").ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            var resp = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            var result = JsonConvert.DeserializeObject<dynamic>(resp);
+            List<string> names = new List<string>();
+
+            dynamic obj = new ExpandoObject();
+            foreach (var r in result)
+            {
+                names.Add(Convert.ToString(r.name));
+            }
+
+            obj.names = names;
+
+            return obj;
+        }
+
         private async Task<CoverArt> CoverArt(string id)
         {
             HttpResponseMessage response = await client.GetAsync(COVERTARTAPI + $"release/{id}").ConfigureAwait(false);

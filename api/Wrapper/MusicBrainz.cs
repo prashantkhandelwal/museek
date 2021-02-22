@@ -78,6 +78,11 @@ namespace api.Wrapper
         public string Name { get; set; }
     }
 
+    public class Auto
+    {
+        public string name { get; set; }
+    }
+
     //public class MusicBrainz
     //{
     //    [JsonProperty("artists")]

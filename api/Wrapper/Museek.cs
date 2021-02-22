@@ -109,18 +109,9 @@ namespace api.Wrapper
             response.EnsureSuccessStatusCode();
             var resp = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            var result = JsonConvert.DeserializeObject<dynamic>(resp);
-            List<string> names = new List<string>();
-
-            dynamic obj = new ExpandoObject();
-            foreach (var r in result)
-            {
-                names.Add(Convert.ToString(r.name));
-            }
-
-            obj.names = names;
-
-            return obj;
+            var result = JsonConvert.DeserializeObject<List<Auto>>(resp).Where(x=>x.name != null);
+            
+            return result;
         }
 
         private async Task<CoverArt> CoverArt(string id)

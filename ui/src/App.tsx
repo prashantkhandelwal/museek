@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import GenreCloud from "./components/GenreCloud";
 import Header from "./layouts/Header";
 import Main from "./Main";
 import { IRecordingProvider } from "./models/Recording";
@@ -17,7 +18,7 @@ export const App: React.FC<IAppProps> = (props: IAppProps) => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Main recordingProvider={props.recordingProvider} />} />
-              {/* <Route path="/:name" element={<PokemonDetails />} /> */}
+              <Route path="/genre" element={<GenreCloud />} />
             </Routes>
           </BrowserRouter>
         </React.Fragment>

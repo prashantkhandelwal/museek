@@ -2,11 +2,9 @@ import { Autocomplete, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Artist } from "../models/Artist";
-import { IRecording, IRecordingProvider } from "../models/Recording";
 
 interface IArtistProps {
-    recodingProvider: IRecordingProvider;
-    recordingCount(c: number): void;
+    selectedArtist(artist: Artist): void;
 }
 
 export const ArtistSearch: React.FC<IArtistProps> = (props: IArtistProps) => {
@@ -24,11 +22,7 @@ export const ArtistSearch: React.FC<IArtistProps> = (props: IArtistProps) => {
 
     useEffect(() => {
         if (artist?.id) {
-            props.recodingProvider.getArtistRecording(artist?.id)
-                .then((recordings: IRecording) => {
-                    props.recordingCount(recordings["recording-count"]);
-                    artist.id = "";
-                });
+            props.selectedArtist(artist);
         }
     }, [artist, props]);
 

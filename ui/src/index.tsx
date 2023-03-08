@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Wrapper } from './index.style';
+import { IGenreProvider } from './models/Genre';
 import { IRecordingProvider } from './models/Recording';
+import GenreProvider from './providers/GenreProvider';
 import RecordingProvider from './providers/RecordingProvider';
 
 const root = ReactDOM.createRoot(
@@ -10,11 +12,14 @@ const root = ReactDOM.createRoot(
 );
 
 let r: IRecordingProvider = new RecordingProvider();
+let g: IGenreProvider = new GenreProvider();
 
 root.render(
   <React.StrictMode>
     <Wrapper>
-      <App recordingProvider={r} />
+      <App
+        recordingProvider={r}
+        genreProvider={g} />
     </Wrapper>
   </React.StrictMode>
 );

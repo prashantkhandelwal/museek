@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Artist } from "../models/Artist";
-import { IRecording, IRecordingProvider } from "../models/Recording";
+import { Recording, IRecordingProvider } from "../models/Recording";
 
 interface IRecordingProps {
     recordingProvider: IRecordingProvider;
@@ -17,7 +17,7 @@ export const Recordings: React.FC<IRecordingProps> = (props: IRecordingProps) =>
         if (props.artist) {
             setLoading(true);
             props.recordingProvider.getArtistRecording(props.artist?.id)
-                .then((recordings: IRecording) => {
+                .then((recordings: Recording) => {
                     setRecordingCount(recordings["recording-count"]);
                     setLoading(false);
                 });

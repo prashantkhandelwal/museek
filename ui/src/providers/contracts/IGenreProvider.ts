@@ -1,6 +1,4 @@
-export interface Genre {
-    result: [];
-}
+import { Genre } from "../../models/interfaces/Genre";
 
 export interface IGenreProvider {
     getGenres(): Promise<Genre>;

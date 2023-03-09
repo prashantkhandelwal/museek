@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArtistSearch } from "./components/ArtistSearch";
 import Recordings from "./components/Recordings";
-import { Artist } from "./models/Artist";
+import { Artist } from "./models/interfaces/Artist";
 import { IRecordingProvider } from "./models/Recording";
 
 interface IMainProps {

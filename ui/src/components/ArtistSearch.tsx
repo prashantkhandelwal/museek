@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Artist } from "../models/Artist";
+import { Artist } from "../models/interfaces/Artist";
 
 interface IArtistProps {
     selectedArtist(artist: Artist): void;

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { IRecordingProvider, Recording } from "../models/Recording";
-
+import { Recording } from "../models/interfaces/Recording";
+import { IRecordingProvider } from "./contracts/IRecordingProvider";
 
 export default class RecordingProvider implements IRecordingProvider {
 
@@ -13,6 +13,3 @@ export default class RecordingProvider implements IRecordingProvider {
         });
     }
 }
-
-
-

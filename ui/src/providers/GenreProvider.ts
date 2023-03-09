@@ -1,5 +1,6 @@
 import axios from "axios";
-import { Genre, IGenreProvider } from "../models/Genre";
+import { Genre } from "../models/interfaces/Genre";
+import { IGenreProvider } from "./contracts/IGenreProvider";
 
 export default class GenreProvider implements IGenreProvider {
     getGenres(): Promise<Genre> {

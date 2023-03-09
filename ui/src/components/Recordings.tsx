@@ -1,7 +1,8 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Artist } from "../models/Artist";
-import { Recording, IRecordingProvider } from "../models/Recording";
+import { Artist } from "../models/interfaces/Artist";
+import { Recording } from "../models/interfaces/Recording";
+import { IRecordingProvider } from "../providers/contracts/IRecordingProvider";
 
 interface IRecordingProps {
     recordingProvider: IRecordingProvider;

@@ -1,4 +1,3 @@
-import { ElectricScooterSharp } from "@mui/icons-material";
 import axios, { AxiosResponse } from "axios";
 import { Recording, RecordingResponse } from "../models/interfaces/Recording";
 import { IRecordingProvider } from "./contracts/IRecordingProvider";
@@ -42,13 +41,13 @@ export default class RecordingProvider implements IRecordingProvider {
             } else if (count > 1000) {
                 await this.delay(500);
             }
-            console.log(url);
 
             //https://github.com/axios/axios/issues/1510
             // eslint-disable-next-line
             await axios.get<RecordingResponse>(url).then((response: AxiosResponse<RecordingResponse>) => {
                 const { "recording-count": recordingcount } = response.data;
                 count = recordingcount;
+                this.recordingsResponse["recording-count"] = recordingcount;
                 for (let j = 0; j < response.data.recordings.length; j++) {
                     this.recordingsResponse.recordings?.push(response.data.recordings[j]);
                 }

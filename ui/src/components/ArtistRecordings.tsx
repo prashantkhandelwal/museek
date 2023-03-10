@@ -21,7 +21,6 @@ export const Recordings: React.FC<IRecordingProps> = (props: IRecordingProps) =>
             props.recordingProvider.getAllRecordings(props.artist?.id).then((response: RecordingResponse) => {
                 setRecordingCount(response["recording-count"]);
                 setLoading(false);
-                console.log(response.recordings);
             });
         }
     }, [props])

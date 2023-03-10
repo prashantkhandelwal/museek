@@ -5,16 +5,16 @@ export interface RecordingResponse {
 }
 
 export interface Recording {
-    // rating: Rating
-    // disambiguation: string
-    // length?: number
+    rating: Rating
+    disambiguation: string
+    length?: number
     title: string
-    //id: string
-    // genres: Genre[]
-    // video: boolean
-    // "artist-credit": ArtistCredit[]
-    // tags: Tag2[]
-    // "first-release-date"?: string
+    id: string
+    genres: Genre[]
+    video: boolean
+    "artist-credit": ArtistCredit[]
+    tags: Tag2[]
+    "first-release-date"?: string
 }
 
 export interface Rating {

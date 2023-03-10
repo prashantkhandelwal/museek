@@ -1,5 +1,6 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Wrapper } from "./styles/ArtistRecording.style";
 import { Artist } from "../models/interfaces/Artist";
 import { RecordingResponse } from "../models/interfaces/Recording";
 import { IRecordingProvider } from "../providers/contracts/IRecordingProvider";
@@ -25,20 +26,27 @@ export const Recordings: React.FC<IRecordingProps> = (props: IRecordingProps) =>
         }
     }, [props])
 
-    if (loading) return (
-        <div>
-            <Box sx={{ left: 120, display: 'flex', position: "absolute" }}>
-                <CircularProgress />
-            </Box>
-        </div>
-    )
+    // if (loading) return (
+    //     <Wrapper>
+    //         <div>
+    //             <Box sx={{ left: 120, display: 'flex', position: "absolute" }}>
+    //                 <CircularProgress />
+    //             </Box>
+    //         </div>
+    //     </Wrapper>
+    // )
 
     return (
-        <div>
-            <h1>
-                Total recordings found: {recordingCount}
-            </h1>
-        </div>
+        <Wrapper>
+            <div className="rtext">
+                {(loading) ?
+                    <div>
+                        <CircularProgress />
+                    </div> :
+                    <span>Total recordings found: {recordingCount}</span>
+                }
+            </div>
+        </Wrapper>
     )
 }
 

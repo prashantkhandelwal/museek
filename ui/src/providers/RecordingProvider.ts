@@ -13,6 +13,10 @@ export default class RecordingProvider implements IRecordingProvider {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    GenUrl(artistId: string, offset: number, limit: number): string {
+        return `https://musicbrainz.org/ws/2/recording/?artist=${artistId}&offset=${offset}&limit=${limit}&fmt=json&inc=artist-credits+tags+genres+ratings`;
+    }
+
     public getArtistRecording(artistId: string): Promise<RecordingResponse> {
         let url = "https://musicbrainz.org/ws/2/recording/?artist=" + artistId + "&offset=0&limit=100&fmt=json&inc=artist-credits";
         return axios.get(url).then((response: any) => {
@@ -20,10 +24,6 @@ export default class RecordingProvider implements IRecordingProvider {
                 return Promise.resolve(response.data);
             }
         });
-    }
-
-    GenUrl(artistId: string, offset: number, limit: number): string {
-        return `https://musicbrainz.org/ws/2/recording/?artist=${artistId}&offset=${offset}&limit=${limit}&fmt=json&inc=artist-credits+tags+genres+ratings`;
     }
 
     public async getAllRecordings(artistId: string): Promise<RecordingResponse> {

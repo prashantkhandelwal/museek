@@ -11,6 +11,8 @@ interface IAppProps {
   genreProvider: IGenreProvider;
 }
 
+// Move Header component inside BrowserRouter so we can make use of
+// useNavigate hook inside child components.
 export const App: React.FC<IAppProps> = (props: IAppProps) => {
   return (
     <div>

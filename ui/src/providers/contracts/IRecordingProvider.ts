@@ -1,5 +1,6 @@
-import { Recording } from "../../models/interfaces/Recording";
+import { RecordingResponse } from "../../models/interfaces/Recording";
 
 export interface IRecordingProvider {
-    getArtistRecording(artistId: string | undefined): Promise<Recording>;
+    getArtistRecording(artistId: string | undefined): Promise<RecordingResponse>;
+    getAllRecordings(artistId: string): Promise<RecordingResponse>;
 }

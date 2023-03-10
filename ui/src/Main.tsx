@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ArtistSearch } from "./components/ArtistSearch";
-import Recordings from "./components/Recordings";
 import { Artist } from "./models/interfaces/Artist";
-import { IRecordingProvider } from "./models/Recording";
+import ArtistRecordings from "./components/ArtistRecordings";
+import { IRecordingProvider } from "./providers/contracts/IRecordingProvider";
 
 interface IMainProps {
     recordingProvider: IRecordingProvider;
@@ -29,7 +29,7 @@ export const Main: React.FC<IMainProps> = (props: IMainProps) => {
         <div>
             <ArtistSearch
                 selectedArtist={getSelectedArtist} />
-            <Recordings
+            <ArtistRecordings
                 recordingProvider={props.recordingProvider}
                 artist={artist} />
         </div>

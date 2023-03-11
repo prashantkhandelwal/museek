@@ -10,19 +10,18 @@ interface IMainProps {
 
 export const Main: React.FC<IMainProps> = (props: IMainProps) => {
     //const [recordingCount, setRecordingCount] = useState<number>();
-    //const [loading, setLoading] = useState<boolean>(false);
-
     const [artist, setArtist] = useState<Artist>();
+
     const getSelectedArtist = (artist: Artist | undefined) => {
         if (artist) setArtist(artist)
     }
 
-    // const getTotalRecordings = (count: number) => {
-    //     setRecordingCount(count);
+    // const artistRecordings = (allrecordings: Recording[]) => {
+    //     if (allrecordings) setAllRecordings(allrecordings);
     // }
 
-    // const getLoadingStatus = (b: boolean) => {
-    //     setLoading(b);
+    // const getTotalRecordings = (count: number) => {
+    //     setRecordingCount(count);
     // }
 
     return (

@@ -1,9 +1,10 @@
-import { Box, CircularProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Wrapper } from "./styles/ArtistRecording.style";
 import { Artist } from "../models/interfaces/Artist";
-import { RecordingResponse } from "../models/interfaces/Recording";
+import { Recording, RecordingResponse } from "../models/interfaces/Recording";
 import { IRecordingProvider } from "../providers/contracts/IRecordingProvider";
+import { RecordingView } from "./RecordingView";
 
 interface IRecordingProps {
     recordingProvider: IRecordingProvider;
@@ -14,37 +15,34 @@ export const Recordings: React.FC<IRecordingProps> = (props: IRecordingProps) =>
 
     const [loading, setLoading] = useState<boolean>(false);
     const [recordingCount, setRecordingCount] = useState<number>(0);
-    //const [recordings, setRecordings] = useState<RecordingResponse>();
+    const [allRecordings, setAllRecordings] = useState<Recording[]>([]);
 
+    let { recordingProvider, artist } = props;
     useEffect(() => {
-        if (props.artist) {
+        console.log('called');
+        if (artist) {
             setLoading(true);
-            props.recordingProvider.getAllRecordings(props.artist?.id).then((response: RecordingResponse) => {
+            recordingProvider.getAllRecordings(artist?.id).then((response: RecordingResponse) => {
                 setRecordingCount(response["recording-count"]);
                 setLoading(false);
+                setAllRecordings(response.recordings);
+                //artistRecordings(response.recordings);
             });
         }
-    }, [props])
-
-    // if (loading) return (
-    //     <Wrapper>
-    //         <div>
-    //             <Box sx={{ left: 120, display: 'flex', position: "absolute" }}>
-    //                 <CircularProgress />
-    //             </Box>
-    //         </div>
-    //     </Wrapper>
-    // )
+    }, [recordingProvider, artist])
 
     return (
         <Wrapper>
             <div className="rtext">
                 {(loading) ?
-                    <div>
+                    < div >
                         <CircularProgress />
                     </div> :
                     <span>Total recordings found: {recordingCount}</span>
                 }
+            </div>
+            <div>
+                <RecordingView allRecordings={allRecordings} />
             </div>
         </Wrapper>
     )

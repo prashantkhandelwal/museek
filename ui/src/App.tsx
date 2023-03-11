@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import GenreCloud from "./components/GenreCloud";
 import Header from "./layouts/Header";
 import Main from "./Main";
@@ -19,6 +21,7 @@ export const App: React.FC<IAppProps> = (props: IAppProps) => {
       {
         <React.Fragment>
           <BrowserRouter>
+            <ToastContainer />
             <Header />
             <Routes>
               <Route path="/" element={<Main recordingProvider={props.recordingProvider} />} />

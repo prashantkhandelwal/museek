@@ -19,14 +19,12 @@ export const Recordings: React.FC<IRecordingProps> = (props: IRecordingProps) =>
 
     let { recordingProvider, artist } = props;
     useEffect(() => {
-        console.log('called');
         if (artist) {
             setLoading(true);
             recordingProvider.getAllRecordings(artist?.id).then((response: RecordingResponse) => {
                 setRecordingCount(response["recording-count"]);
                 setLoading(false);
                 setAllRecordings(response.recordings);
-                //artistRecordings(response.recordings);
             });
         }
     }, [recordingProvider, artist])
@@ -35,11 +33,13 @@ export const Recordings: React.FC<IRecordingProps> = (props: IRecordingProps) =>
         <Wrapper>
             <div className="rtext">
                 {(loading) ?
-                    < div >
+                    <div>
                         <CircularProgress />
-                    </div> :
-                    <span>Total recordings found: {recordingCount}</span>
+                    </div> : <></>
                 }
+            </div>
+            <div className="rtext">
+                <span>Total recordings found: {recordingCount}</span>
             </div>
             <div>
                 <RecordingView allRecordings={allRecordings} />

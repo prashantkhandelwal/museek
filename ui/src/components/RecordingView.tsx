@@ -1,9 +1,10 @@
+import { Grid } from "@mui/material";
 import { Recording } from "../models/interfaces/Recording";
+import { Record } from "./Record";
 
 interface IRecordingProps {
     allRecordings: Recording[];
 }
-
 
 export const RecordingView: React.FC<IRecordingProps>
     = (props: IRecordingProps): JSX.Element => {
@@ -11,16 +12,17 @@ export const RecordingView: React.FC<IRecordingProps>
             <div>
                 {
                     <div>
-                        {
-                            props.allRecordings.map((e) => (
-                                <p key={e.id}>
-                                    {e.title}
-                                </p>
-                            ))
-                        }
+                        <Grid container spacing={4}>
+                            {
+                                props.allRecordings.map((e: Recording) => (
+                                    <Grid key={e.id} item xs>
+                                        <Record data={e} />
+                                    </Grid>
+                                ))
+                            }
+                        </Grid>
                     </div>
                 }
-
             </div>
         )
     }

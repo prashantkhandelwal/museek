@@ -68,7 +68,7 @@ func main() {
 		fmt.Println("NAME: ", name)
 
 		query := `{
-			"search_type": "matchphrase",
+			"search_type": "fuzzy",
 			"query":
 			{
 				"term": "%s"
@@ -100,7 +100,6 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		//fmt.Println(string(body))
 
 		response := []byte(string(body))
 
@@ -108,13 +107,9 @@ func main() {
 
 		json.Unmarshal(response, &search)
 
-		//var a []string
-
 		a := []Source{}
 
 		var i int
-		//var d map[string]string
-
 		for _, v := range search.Hits.Hits {
 			i = i + 1
 			n := Source{Id: v.Source.Id, Name: v.Source.Name}
@@ -128,5 +123,4 @@ func main() {
 		})
 	})
 	r.Run(":9999")
-
 }

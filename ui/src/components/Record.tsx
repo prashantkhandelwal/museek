@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Rating, Typography } from "@mui/material";
 import { Recording } from "../models/interfaces/Recording";
 import { Wrapper } from "./styles/Record.style";
 
@@ -31,8 +31,7 @@ export const Record: React.FC<IRecord> = (props: IRecord) => {
                                 ))}
                         </Typography>
                         <Typography variant="inherit" align="left" component="div">
-                            <span className="rkeys">Ratings:</span>
-                            <span className="rvalues">{props.data.rating.value} ({props.data.rating["votes-count"]})</span>
+                            <Rating name="read-only" value={props.data.rating.value} readOnly />
                         </Typography>
                     </CardContent>
                 </Card>

@@ -14,13 +14,14 @@ interface IRecordingProps {
 export const Recordings: React.FC<IRecordingProps> = (props: IRecordingProps) => {
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [recordingCount, setRecordingCount] = useState<number>(0);
+    const [recordingCount, setRecordingCount] = useState<number | undefined>(undefined);
     const [allRecordings, setAllRecordings] = useState<Recording[]>([]);
 
     let { recordingProvider, artist } = props;
     useEffect(() => {
         if (artist) {
             setLoading(true);
+            setRecordingCount(undefined);
             recordingProvider.getAllRecordings(artist?.id).then((response: RecordingResponse) => {
                 setRecordingCount(response["recording-count"]);
                 setLoading(false);
@@ -38,12 +39,16 @@ export const Recordings: React.FC<IRecordingProps> = (props: IRecordingProps) =>
                     </div> : <></>
                 }
             </div>
-            <div className="rtext">
-                <span>Total recordings found: {recordingCount}</span>
-            </div>
-            <div>
-                <RecordingView allRecordings={allRecordings} />
-            </div>
+            {(recordingCount) ?
+                <div>
+                    <div className="rtext">
+                        <span>Total recordings found: {recordingCount}</span>
+                    </div>
+                    <div>
+                        <RecordingView allRecordings={allRecordings} />
+                    </div>
+                </div> : <></>
+            }
         </Wrapper>
     )
 }

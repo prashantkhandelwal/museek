@@ -17,6 +17,8 @@ export default class RecordingProvider implements IRecordingProvider {
         return `https://musicbrainz.org/ws/2/recording/?artist=${artistId}&offset=${offset}&limit=${limit}&fmt=json&inc=artist-credits+tags+genres+ratings`;
     }
 
+
+
     public getArtistRecording(artistId: string): Promise<RecordingResponse> {
         let url = "https://musicbrainz.org/ws/2/recording/?artist=" + artistId + "&offset=0&limit=100&fmt=json&inc=artist-credits";
         return axios.get(url).then((response: any) => {

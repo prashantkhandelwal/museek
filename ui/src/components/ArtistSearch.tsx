@@ -3,7 +3,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Wrapper } from "./styles/ArtistSearch.style";
 import { Artist } from "../models/interfaces/Artist";
-import { toast } from "react-toastify";
 
 interface IArtistProps {
     selectedArtist(artist: Artist): void;

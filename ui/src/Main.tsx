@@ -3,9 +3,13 @@ import { ArtistSearch } from "./components/ArtistSearch";
 import { Artist } from "./models/interfaces/Artist";
 import ArtistRecordings from "./components/ArtistRecordings";
 import { IRecordingProvider } from "./providers/contracts/IRecordingProvider";
+import { ArtistInfo } from "./components/ArtistInfo";
+import { IArtistInfoProvider } from "./providers/contracts/IArtistInfoProvider";
+import ArtistInfoProvider from "./providers/ArtistInfoProvider";
 
 interface IMainProps {
     recordingProvider: IRecordingProvider;
+    artistInfoProvider: IArtistInfoProvider;
 }
 
 export const Main: React.FC<IMainProps> = (props: IMainProps) => {
@@ -28,9 +32,12 @@ export const Main: React.FC<IMainProps> = (props: IMainProps) => {
         <div>
             <ArtistSearch
                 selectedArtist={getSelectedArtist} />
-            <ArtistRecordings
+            <ArtistInfo artistId={artist?.id}
+                artistInfoProvider={props.artistInfoProvider} />
+
+            {/* <ArtistRecordings
                 recordingProvider={props.recordingProvider}
-                artist={artist} />
+                artist={artist} /> */}
         </div>
     )
 }

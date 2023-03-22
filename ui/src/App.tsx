@@ -5,10 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import GenreCloud from "./components/GenreCloud";
 import Header from "./layouts/Header";
 import Main from "./Main";
+import { IArtistInfoProvider } from "./providers/contracts/IArtistInfoProvider";
 import { IGenreProvider } from "./providers/contracts/IGenreProvider";
 import { IRecordingProvider } from "./providers/contracts/IRecordingProvider";
 
 interface IAppProps {
+  artistInfoProvider: IArtistInfoProvider;
   recordingProvider: IRecordingProvider;
   genreProvider: IGenreProvider;
 }
@@ -24,7 +26,7 @@ export const App: React.FC<IAppProps> = (props: IAppProps) => {
             <ToastContainer />
             <Header />
             <Routes>
-              <Route path="/" element={<Main recordingProvider={props.recordingProvider} />} />
+              <Route path="/" element={<Main recordingProvider={props.recordingProvider} artistInfoProvider={props.artistInfoProvider} />} />
               <Route path="/genre" element={<GenreCloud genreprovider={props.genreProvider} />} />
             </Routes>
           </BrowserRouter>

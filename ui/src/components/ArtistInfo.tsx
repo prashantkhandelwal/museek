@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ArtistInfoResponse } from "../models/interfaces/ArtistInfo";
 import { IArtistInfoProvider } from "../providers/contracts/IArtistInfoProvider";
+import defaultImage from "../assets/placeholderimg.jpg";
 
 interface IArtistProps {
     artistId: string | undefined;
@@ -13,7 +14,7 @@ export const ArtistInfo: React.FC<IArtistProps>
         let { artistInfoProvider, artistId } = props;
 
         const [artistInfo, setArtistInfo] = useState<ArtistInfoResponse>();
-        const [artistImage, setArtistImage] = useState<string>();
+        const [artistImage, setArtistImage] = useState<string>(defaultImage);
 
         const getArtistImage = (artistRels: ArtistInfoResponse | undefined) => {
             console.log('get image called');

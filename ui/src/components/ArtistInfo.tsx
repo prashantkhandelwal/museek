@@ -15,20 +15,21 @@ export const ArtistInfo: React.FC<IArtistProps>
         const [artistInfo, setArtistInfo] = useState<ArtistInfoResponse>();
         const [artistImage, setArtistImage] = useState<string>();
 
-        const getArtistImage = (artistRels: ArtistInfoResponse) => {
+        const getArtistImage = (artistRels: ArtistInfoResponse | undefined) => {
             console.log('get image called');
             artistRels?.relations.map((a) => {
                 if (a.type === "image") {
                     artistInfoProvider.getArtistImage(a.url.resource)
                         .then((response: any) => {
                             setArtistImage(response.result);
-                            console.log(artistImage);
                             return undefined;
                         })
                 }
                 return undefined;
             });
         }
+
+
 
         useEffect(() => {
             if (artistId) {
@@ -41,20 +42,23 @@ export const ArtistInfo: React.FC<IArtistProps>
 
         return (
 
-            <div>
-                Artist Info:
+            <div>{(artistInfo) ?
                 <div>
+                    Artist Info:
+                    <div>
 
-                    <img src={artistImage} alt="ii" />
-                </div>
-                <p>
-                    {
-                        artistInfo?.name
-                    }
-                </p>
-                <p>{artistInfo?.country}</p>
-                <p>{artistInfo?.gender}</p>
-                <p>{artistInfo?.type}</p>
+                        <img src={artistImage} key={artistImage} alt={artistInfo.name} />
+                    </div>
+                    <p>
+                        {
+                            artistInfo?.name
+                        }
+                    </p>
+                    <p>{artistInfo?.country}</p>
+                    <p>{artistInfo?.gender}</p>
+                    <p>{artistInfo?.type}</p>
+                </div> : <></>
+            }
             </div>
         )
     }

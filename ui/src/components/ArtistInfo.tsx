@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { ArtistInfoResponse } from "../models/interfaces/ArtistInfo";
 import { IArtistInfoProvider } from "../providers/contracts/IArtistInfoProvider";
 import defaultImage from "../assets/placeholderimg.jpg";
+import { Wrapper } from "./styles/ArtistInfo.style";
+import { Skeleton } from "@mui/material";
 
 interface IArtistProps {
     artistId: string | undefined;
@@ -14,9 +16,10 @@ export const ArtistInfo: React.FC<IArtistProps>
         let { artistInfoProvider, artistId } = props;
 
         const [artistInfo, setArtistInfo] = useState<ArtistInfoResponse>();
-        const [artistImage, setArtistImage] = useState<string>(defaultImage);
+        const [artistImage, setArtistImage] = useState<string | undefined>(defaultImage);
 
         const getArtistImage = (artistRels: ArtistInfoResponse | undefined) => {
+            setArtistImage(undefined);
             console.log('get image called');
             artistRels?.relations.map((a) => {
                 if (a.type === "image") {
@@ -30,8 +33,6 @@ export const ArtistInfo: React.FC<IArtistProps>
             });
         }
 
-
-
         useEffect(() => {
             if (artistId) {
                 artistInfoProvider.getArtistInfo(artistId).then((response: ArtistInfoResponse) => {
@@ -42,24 +43,27 @@ export const ArtistInfo: React.FC<IArtistProps>
         }, [artistInfoProvider, artistId])
 
         return (
-
-            <div>{(artistInfo) ?
-                <div>
-                    Artist Info:
+            <Wrapper>
+                <div>{(artistInfo) ?
                     <div>
-
-                        <img src={artistImage} key={artistImage} alt={artistInfo.name} />
-                    </div>
-                    <p>
-                        {
-                            artistInfo?.name
+                        Artist Info:
+                        <div>{(artistImage) ?
+                            <img src={artistImage} key={artistImage} alt={artistInfo.name} />
+                            : <Skeleton variant="rectangular" width={350} height={350} />
                         }
-                    </p>
-                    <p>{artistInfo?.country}</p>
-                    <p>{artistInfo?.gender}</p>
-                    <p>{artistInfo?.type}</p>
-                </div> : <></>
-            }
-            </div>
+                        </div>
+                        <p>
+                            {
+                                artistInfo?.name
+                            }
+                        </p>
+                        <p>{artistInfo?.country}</p>
+                        <p>{artistInfo?.gender}</p>
+                        <p>{artistInfo?.type}</p>
+                    </div> : <>
+                    </>
+                }
+                </div>
+            </Wrapper>
         )
     }

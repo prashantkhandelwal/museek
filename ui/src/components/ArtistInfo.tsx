@@ -3,7 +3,7 @@ import { ArtistInfoResponse } from "../models/interfaces/ArtistInfo";
 import { IArtistInfoProvider } from "../providers/contracts/IArtistInfoProvider";
 import defaultImage from "../assets/placeholderimg.jpg";
 import { Wrapper } from "./styles/ArtistInfo.style";
-import { Skeleton } from "@mui/material";
+import { Skeleton, Typography } from "@mui/material";
 
 interface IArtistProps {
     artistId: string | undefined;
@@ -44,25 +44,23 @@ export const ArtistInfo: React.FC<IArtistProps>
 
         return (
             <Wrapper>
-                <div>{(artistInfo) ?
-                    <div>
-                        Artist Info:
-                        <div>{(artistImage) ?
-                            <img src={artistImage} key={artistImage} alt={artistInfo.name} />
-                            : <Skeleton variant="rectangular" width={350} height={350} />
-                        }
-                        </div>
-                        <p>
-                            {
-                                artistInfo?.name
-                            }
-                        </p>
-                        <p>{artistInfo?.country}</p>
-                        <p>{artistInfo?.gender}</p>
-                        <p>{artistInfo?.type}</p>
-                    </div> : <>
-                    </>
-                }
+                <div>
+                    {
+                        (artistInfo) ?
+                            <div>
+                                <div className="artistImage">{(artistImage) ?
+                                    <img src={artistImage} key={artistImage} alt={artistInfo.name} width={350} />
+                                    :
+                                    <Skeleton component="div" style={{ margin: "auto" }} animation="pulse" variant="rectangular" width={350} height={350} />
+                                }
+                                </div>
+                                <Typography variant="inherit" align="center" component="div" gutterBottom>{artistInfo?.name}</Typography>
+                                <p>{artistInfo?.country}</p>
+                                <p>{artistInfo?.gender}</p>
+                                <p>{artistInfo?.type}</p>
+                            </div> : <>
+                            </>
+                    }
                 </div>
             </Wrapper>
         )

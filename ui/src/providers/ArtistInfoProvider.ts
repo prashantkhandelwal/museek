@@ -12,11 +12,11 @@ export default class ArtistInfoProvider implements IArtistInfoProvider {
         });
     }
 
-    getArtistImage(artistUrl: string): Promise<string> {
+    public async getArtistImage(artistUrl: string): Promise<string> {
         let url = "http://localhost:9999/artistimage"
         const params = new URLSearchParams();
         params.append("url", artistUrl);
-        return axios.post(url, params).then((response: any) => {
+        return await axios.post(url, params).then((response: any) => {
             if (response.status === 200 && response.data) {
                 return Promise.resolve(response.data);
             }

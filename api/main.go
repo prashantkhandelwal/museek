@@ -9,9 +9,11 @@ import (
 	"net/http"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/gocolly/colly"
 )
 
 type Source struct {
@@ -38,7 +40,7 @@ func main() {
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"PUT", "PATCH"},
+		AllowMethods:     []string{"GET"},
 		AllowHeaders:     []string{"Origin"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
@@ -68,7 +70,7 @@ func main() {
 		fmt.Println("NAME: ", name)
 
 		query := `{
-			"search_type": "fuzzy",
+			"search_type": "matchphrase",
 			"query":
 			{
 				"term": "%s"
@@ -94,8 +96,11 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		defer resp.Body.Close()
+
 		log.Println(resp.StatusCode)
+
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			log.Fatal(err)
@@ -106,6 +111,8 @@ func main() {
 		var search Data
 
 		json.Unmarshal(response, &search)
+
+		fmt.Println("HITS - ", len(search.Hits.Hits))
 
 		a := []Source{}
 
@@ -122,5 +129,28 @@ func main() {
 			"result": &a,
 		})
 	})
+
+	r.POST("/artistimage", func(c *gin.Context) {
+		time.Sleep(time.Second * 5)
+		var imageUrl string
+		url := c.PostForm("url")
+
+		if strings.Contains(url, "twimg") {
+			imageUrl = url
+		} else {
+			coll := colly.NewCollector()
+			coll.OnHTML("meta", func(e *colly.HTMLElement) {
+				if e.Attr("property") == "og:image" {
+					imageUrl = e.Attr("content")
+				}
+			})
+			coll.Visit(url)
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"result": imageUrl,
+		})
+	})
+
 	r.Run(":9999")
 }

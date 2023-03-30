@@ -5,6 +5,7 @@ import { Artist } from "../models/interfaces/Artist";
 import { Recording, RecordingResponse } from "../models/interfaces/Recording";
 import { IRecordingProvider } from "../providers/contracts/IRecordingProvider";
 import { RecordingView } from "./RecordingView";
+import { useLocation } from "react-router-dom";
 
 interface IRecordingProps {
     recordingProvider: IRecordingProvider;
@@ -13,22 +14,24 @@ interface IRecordingProps {
 
 export const Recordings: React.FC<IRecordingProps> = (props: IRecordingProps) => {
 
+    const location = useLocation();
     const [loading, setLoading] = useState<boolean>(false);
     const [recordingCount, setRecordingCount] = useState<number | undefined>(undefined);
     const [allRecordings, setAllRecordings] = useState<Recording[]>([]);
 
-    let { recordingProvider, artist } = props;
+    let { recordingProvider } = props;
+    let artistId = location.state.artistId;
     useEffect(() => {
-        if (artist) {
+        if (artistId) {
             setLoading(true);
             setRecordingCount(undefined);
-            recordingProvider.getAllRecordings(artist?.id).then((response: RecordingResponse) => {
+            recordingProvider.getAllRecordings(artistId).then((response: RecordingResponse) => {
                 setRecordingCount(response["recording-count"]);
                 setLoading(false);
                 setAllRecordings(response.recordings);
             });
         }
-    }, [recordingProvider, artist])
+    }, [recordingProvider, artistId])
 
     return (
         <Wrapper>

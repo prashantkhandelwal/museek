@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Wrapper } from './index.style';
@@ -18,13 +17,11 @@ let g: IGenreProvider = new GenreProvider();
 let a: IArtistInfoProvider = new ArtistInfoProvider();
 
 root.render(
-  <React.StrictMode>
-    <Wrapper>
-      <App
-        recordingProvider={r}
-        genreProvider={g}
-        artistInfoProvider={a}
-      />
-    </Wrapper>
-  </React.StrictMode>
+  <Wrapper>
+    <App
+      recordingProvider={r}
+      genreProvider={g}
+      artistInfoProvider={a}
+    />
+  </Wrapper>
 );

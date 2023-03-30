@@ -16,7 +16,7 @@ export const RecordingView: React.FC<IRecordingProps>
                             {
                                 props.allRecordings.map((e: Recording) => (
                                     <Grid key={e.id} item xs>
-                                        <Record data={e} />
+                                        <Record key={e.id} data={e} />
                                     </Grid>
                                 ))
                             }

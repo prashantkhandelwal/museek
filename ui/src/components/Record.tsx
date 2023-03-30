@@ -26,7 +26,7 @@ export const Record: React.FC<IRecord> = (props: IRecord) => {
         <Wrapper>
             {(!props.data.video) ?
                 <Box width="350px" paddingBottom={0}>
-                    <Card>
+                    <Card key={props.data.id}>
                         <CardContent>
                             <Typography variant="inherit" align="center" component="div">
                                 <span className="rkeys">{props.data.title}</span>

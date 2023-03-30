@@ -3,7 +3,9 @@ import { ArtistInfoResponse } from "../models/interfaces/ArtistInfo";
 import { IArtistInfoProvider } from "../providers/contracts/IArtistInfoProvider";
 import defaultImage from "../assets/placeholderimg.jpg";
 import { Wrapper } from "./styles/ArtistInfo.style";
-import { Skeleton, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Chip, Skeleton, Typography } from "@mui/material";
+import { MusicNote } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 interface IArtistProps {
     artistId: string | undefined;
@@ -53,21 +55,60 @@ export const ArtistInfo: React.FC<IArtistProps>
 
         return (
             <Wrapper>
-                <div>
+                <div id="artistInfo">
                     {
                         (artistInfo) ?
                             <div>
-                                <div className="artistImage">{(artistImage !== undefined && done) ?
-                                    <img style={{ margin: "auto" }} src={artistImage} key={artistImage} alt={artistInfo.name} width={350} />
-                                    : (artistImage === undefined && !done) ?
-                                        <img style={{ margin: "auto" }} src={defaultImage} key={artistImage} alt={artistInfo.name} width={350} />
-                                        : <Skeleton component="div" style={{ margin: "auto" }} animation="pulse" variant="rectangular" width={350} height={350} />
-                                }
-                                </div>
-                                <Typography variant="inherit" align="center" component="div" gutterBottom>{artistInfo?.name}</Typography>
-                                <p>{artistInfo?.country}</p>
-                                <p>{artistInfo?.gender}</p>
-                                <p>{artistInfo?.type}</p>
+                                <Box minWidth="100%" paddingBottom={0}>
+                                    <Card sx={{ display: "flex" }}>
+                                        {(artistImage !== undefined && done) ?
+                                            <CardMedia component="img" sx={{ width: 251, height: 251 }} image={artistImage} alt={artistInfo.name} />
+                                            : (artistImage === undefined && !done) ?
+                                                <CardMedia component="img" sx={{ width: 251, height: 251 }} image={defaultImage} alt={artistInfo.name} />
+                                                : <Skeleton component="div" animation="pulse" variant="rectangular" width={251} height={251} />
+                                        }
+                                        <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                            <CardContent sx={{ flex: "5 5 auto" }}>
+                                                <Typography component="div" variant="h6">
+                                                    {artistInfo.name} ({artistInfo["life-span"].begin}
+                                                    {(artistInfo["life-span"].ended) ? " - " + artistInfo["life-span"].end : " - Present"})
+                                                </Typography>
+                                                <Typography variant="subtitle1" color="text.secondary" component="div">
+                                                    {artistInfo.type}
+                                                </Typography>
+                                                <Typography variant="subtitle2" color="text.secondary" component="div">
+                                                    {artistInfo.country}
+                                                </Typography>
+                                            </CardContent>
+                                            <Box sx={{ display: "table-column", alignItems: 'center' }}>
+                                                {
+                                                    artistInfo.genres.map((genre, i) => (
+                                                        <Chip
+                                                            sx={{ marginLeft: 0.5, marginBottom: 1 }}
+                                                            key={i}
+                                                            icon={<MusicNote />}
+                                                            label={genre.name}
+                                                        />
+                                                    ))
+                                                }
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                            <CardContent sx={{ flex: "5 5 auto" }}>
+                                                <Typography component="div" variant="body2">
+                                                    <Link to={`/recordings/${artistId}`} state={{ artistId: artistId }}>Recordings</Link>
+                                                </Typography>
+                                                <Typography variant="subtitle1" color="text.secondary" component="div">
+                                                    Albums
+                                                </Typography>
+                                                <Typography variant="subtitle2" color="text.secondary" component="div">
+                                                    Something else
+                                                </Typography>
+                                            </CardContent>
+                                        </Box>
+
+                                    </Card>
+                                </Box>
                             </div> : <></>
                     }
                 </div>

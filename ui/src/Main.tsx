@@ -6,6 +6,7 @@ import { IRecordingProvider } from "./providers/contracts/IRecordingProvider";
 import { ArtistInfo } from "./components/ArtistInfo";
 import { IArtistInfoProvider } from "./providers/contracts/IArtistInfoProvider";
 import ArtistInfoProvider from "./providers/ArtistInfoProvider";
+import { Container } from "@mui/material";
 
 interface IMainProps {
     recordingProvider: IRecordingProvider;
@@ -29,7 +30,7 @@ export const Main: React.FC<IMainProps> = (props: IMainProps) => {
     // }
 
     return (
-        <div>
+        <Container fixed>
             <ArtistSearch
                 selectedArtist={getSelectedArtist} />
             <ArtistInfo artistId={artist?.id}
@@ -38,7 +39,7 @@ export const Main: React.FC<IMainProps> = (props: IMainProps) => {
             {/* <ArtistRecordings
                 recordingProvider={props.recordingProvider}
                 artist={artist} /> */}
-        </div>
+        </Container>
     )
 }
 

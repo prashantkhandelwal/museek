@@ -38,7 +38,7 @@ export const ArtistSearch: React.FC<IArtistProps>
                             id="asynchronous-demo"
                             freeSolo
                             filterOptions={(x) => x}
-                            sx={{ width: 1300 }}
+                            sx={{ minWidth: "100%" }}
                             isOptionEqualToValue={(option, value) => option.name === value.name}
                             getOptionLabel={(option: any) => option.name || ""}
                             options={artistAuto}

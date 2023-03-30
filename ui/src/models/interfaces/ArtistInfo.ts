@@ -2,9 +2,25 @@ export interface ArtistInfoResponse {
     id: string;
     name: string;
     country: string;
+    disambiguation: string;
     type: string;
     gender: string;
     relations: Relation[];
+    genres: Genre[];
+    "life-span": LifeSpan;
+}
+
+export interface Genre {
+    disambiguation: string
+    name: string
+    count: number
+    id: string
+}
+
+export interface LifeSpan {
+    end: any
+    begin: string
+    ended: boolean
 }
 
 export interface Relation {

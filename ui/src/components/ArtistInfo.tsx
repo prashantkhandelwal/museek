@@ -3,9 +3,11 @@ import { ArtistInfoResponse } from "../models/interfaces/ArtistInfo";
 import { IArtistInfoProvider } from "../providers/contracts/IArtistInfoProvider";
 import defaultImage from "../assets/placeholderimg.jpg";
 import { Wrapper } from "./styles/ArtistInfo.style";
-import { Box, Card, CardContent, CardMedia, Chip, Skeleton, Typography } from "@mui/material";
+import { Box, Card, CardActions, CardContent, CardMedia, Chip, IconButton, Skeleton, Tooltip, Typography } from "@mui/material";
 import { MusicNote } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import AlbumIcon from '@mui/icons-material/Album';
+import AudiotrackIcon from '@mui/icons-material/Audiotrack';
+import { useNavigate } from "react-router-dom";
 
 interface IArtistProps {
     artistId: string | undefined;
@@ -17,9 +19,14 @@ export const ArtistInfo: React.FC<IArtistProps>
 
         let { artistInfoProvider, artistId } = props;
 
+        const navigate = useNavigate();
         const [artistInfo, setArtistInfo] = useState<ArtistInfoResponse>();
         const [artistImage, setArtistImage] = useState<string | undefined>(undefined);
         const [done, setDone] = useState(false);
+
+        const handleNavigate = (path: string, Id: string | undefined) => {
+            navigate(path + artistId, { state: { artistId: Id } })
+        }
 
         const getArtistImage = async (artistRels: ArtistInfoResponse | undefined) => {
             let relCount: number | undefined = artistRels?.relations.length;
@@ -60,7 +67,7 @@ export const ArtistInfo: React.FC<IArtistProps>
                         (artistInfo) ?
                             <div>
                                 <Box minWidth="100%" paddingBottom={0}>
-                                    <Card sx={{ display: "flex" }}>
+                                    <Card sx={{ display: "inline-flex" }}>
                                         {(artistImage !== undefined && done) ?
                                             <CardMedia component="img" sx={{ width: 251, height: 251 }} image={artistImage} alt={artistInfo.name} />
                                             : (artistImage === undefined && !done) ?
@@ -93,25 +100,40 @@ export const ArtistInfo: React.FC<IArtistProps>
                                                 }
                                             </Box>
                                         </Box>
-                                        <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                            <CardContent sx={{ flex: "5 5 auto" }}>
+                                        <Box sx={{ display: "flex", flexDirection: "row" }}>
+                                            <CardActions disableSpacing sx={{ display: "table-column" }}>
+                                                <Typography variant="inherit" component="div">
+                                                    <IconButton aria-label="view all songs" onClick={() => handleNavigate("/recordings/", artistId)}>
+                                                        <Tooltip title="Songs" placement="right-start">
+                                                            <AudiotrackIcon />
+                                                        </Tooltip>
+                                                    </IconButton>
+                                                </Typography>
+                                                <Typography variant="inherit" component="div">
+                                                    <IconButton aria-label="view all albums" onClick={() => handleNavigate("/albums/", artistId)}>
+                                                        <Tooltip title="Albums" placement="right-start">
+                                                            <AlbumIcon />
+                                                        </Tooltip>
+                                                    </IconButton>
+                                                </Typography>
+                                            </CardActions>
+                                            {/* <CardContent sx={{ flex: "5 5 auto" }}>
                                                 <Typography component="div" variant="body2">
-                                                    <Link to={`/recordings/${artistId}`} state={{ artistId: artistId }}>Recordings</Link>
+                                                    <Link style={{ textDecoration: "none" }} to={`/recordings/${artistId}`} state={{ artistId: artistId }}><AudiotrackIcon /></Link>
                                                 </Typography>
                                                 <Typography variant="subtitle1" color="text.secondary" component="div">
-                                                    Albums
+                                                    <Link to={`/albums/${artistId}`} state={{ artistId: artistId }}>Albums</Link>
                                                 </Typography>
                                                 <Typography variant="subtitle2" color="text.secondary" component="div">
-                                                    Something else
-                                                </Typography>
-                                            </CardContent>
-                                        </Box>
 
+                                                </Typography>
+                                            </CardContent> */}
+                                        </Box>
                                     </Card>
                                 </Box>
                             </div> : <></>
                     }
-                </div>
+                </div >
             </Wrapper >
         )
     }

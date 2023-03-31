@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { ArtistInfoResponse } from "../models/interfaces/ArtistInfo";
 import { IArtistInfoProvider } from "../providers/contracts/IArtistInfoProvider";
@@ -110,7 +111,7 @@ export const ArtistInfo: React.FC<IArtistProps>
                                                     </IconButton>
                                                 </Typography>
                                                 <Typography variant="inherit" component="div">
-                                                    <IconButton aria-label="view all albums" onClick={() => handleNavigate("/albums/", artistId)}>
+                                                    <IconButton aria-label="view all a lbums" onClick={() => handleNavigate("/albums/", artistId)}>
                                                         <Tooltip title="Albums" placement="right-start">
                                                             <AlbumIcon />
                                                         </Tooltip>

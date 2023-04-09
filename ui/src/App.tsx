@@ -9,9 +9,12 @@ import Main from "./Main";
 import { IArtistInfoProvider } from "./providers/contracts/IArtistInfoProvider";
 import { IGenreProvider } from "./providers/contracts/IGenreProvider";
 import { IRecordingProvider } from "./providers/contracts/IRecordingProvider";
+import { AlbumsView } from "./components/AlbumsView";
+import { IAlbumsProvider } from "./providers/contracts/IAlbumsProvider";
 
 interface IAppProps {
   artistInfoProvider: IArtistInfoProvider;
+  albumsProvider: IAlbumsProvider;
   recordingProvider: IRecordingProvider;
   genreProvider: IGenreProvider;
 }
@@ -30,6 +33,7 @@ export const App: React.FC<IAppProps> = (props: IAppProps) => {
               <Route path="/" element={<Main recordingProvider={props.recordingProvider} artistInfoProvider={props.artistInfoProvider} />} />
               <Route path="/genre" element={<GenreCloud genreprovider={props.genreProvider} />} />
               <Route path="/recordings/:artistId" element={<ArtistRecordings recordingProvider={props.recordingProvider} />} />
+              <Route path="/albums/:artistId" element={<AlbumsView albumProvider={props.albumsProvider} />} />
             </Routes>
           </BrowserRouter>
         </React.Fragment>

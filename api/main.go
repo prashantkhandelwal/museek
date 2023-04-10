@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"path/filepath"
 	"strings"
-	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -131,7 +130,7 @@ func main() {
 	})
 
 	r.POST("/artistimage", func(c *gin.Context) {
-		time.Sleep(time.Second * 5)
+		//time.Sleep(time.Second * 5)
 		var imageUrl string
 		url := c.PostForm("url")
 

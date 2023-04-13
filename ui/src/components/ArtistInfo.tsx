@@ -92,7 +92,7 @@ export const ArtistInfo: React.FC<IArtistProps>
                                                 {
                                                     artistInfo.genres.map((genre, i) => (
                                                         <Chip
-                                                            sx={{ marginLeft: 0.5, marginBottom: 1 }}
+                                                            sx={{ marginLeft: 2, marginBottom: 1 }}
                                                             key={i}
                                                             icon={<MusicNote />}
                                                             label={genre.name}

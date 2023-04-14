@@ -67,7 +67,7 @@ export const ArtistInfo: React.FC<IArtistProps>
                     {
                         (artistInfo) ?
                             <div>
-                                <Box minWidth="100%" paddingBottom={0}>
+                                <Box minWidth="100%" paddingBottom={0} textAlign="center">
                                     <Card sx={{ display: "inline-flex" }}>
                                         {(artistImage !== undefined && done) ?
                                             <CardMedia component="img" sx={{ width: 251, height: 251 }} image={artistImage} alt={artistInfo.name} />
@@ -75,7 +75,7 @@ export const ArtistInfo: React.FC<IArtistProps>
                                                 <CardMedia component="img" sx={{ width: 251, height: 251 }} image={defaultImage} alt={artistInfo.name} />
                                                 : <Skeleton component="div" animation="pulse" variant="rectangular" width={251} height={251} />
                                         }
-                                        <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                        <Box sx={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
                                             <CardContent sx={{ flex: "5 5 auto" }}>
                                                 <Typography component="div" variant="h6">
                                                     {artistInfo.name} ({artistInfo["life-span"].begin}
